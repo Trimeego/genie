@@ -1,0 +1,43 @@
+{
+  "name": "genie",
+  "description": "A simple object generator for ginning up realistic looking fake data. Works for all of your fake data needs.",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Trimeego/genie",
+  "author": {
+    "name": "Trimeego",
+    "email": "jdouglas@icgconsulting.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Trimeego/genie.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Trimeego/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/ICGGroup/grunt-barista/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "genie.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-coffee": "~0.6.6",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt-contrib-watch": "~0.3.1",
+    "expect.js": "~0.2.0"
+  },
+  "peerDependencies": {},
+  "keywords": [
+    "data generator faker"
+  ],
+  "dependencies": {
+    "Faker": "~0.5.8",
+    "moment": "~2.0.0",
+    "underscore": "~1.4.4"
+  }
+}
