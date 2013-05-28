@@ -14,8 +14,10 @@ Faker.Genie =
   usStateAbbr: ()-> Faker.Address.usState(true)
   pattern: (pattern)->
     fakerPattern = _.flatten((({func:Faker[n][f], context:Faker[n]} for f of Faker[n] when f is pattern) for n of Faker))    
-    if fakerPattern
+    if fakerPattern and fakerPattern.length > 0
       fakerPattern[0].func.apply(fakerPattern[0].context)
+    else
+      throw new Error("invalid pattern: #{pattern}")
   format: (format)->
     Faker.Helpers.replaceSymbolWithNumber(format)    
 
