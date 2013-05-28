@@ -325,6 +325,20 @@ describe "Genie", ->
           this.ref + 1
       expect(obj.target).to.be(obj.ref+1)
 
+    it "passes genie object into function with helpers", ->
+      obj = genie
+        ref:
+          min: 1
+          max: 5
+        target: (genie)->
+          
+          expect(genie).to.not.be(null)
+          expect(genie.oneOf).to.not.be(null)
+          expect(genie.format).to.not.be(null)
+          expect(genie.weightedSample).to.not.be(null)
+          expect(genie.pattern).to.not.be(null)
+      
+
   describe "Nested Nodes", ->
 
     it "generates child nodes or arbitrary depth if template nodes are specified", ->

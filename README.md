@@ -21,6 +21,7 @@ I use coffeescript a lot and I like it.  As such, the examples are in coffeescri
 
 Say you needed to generate some customer records.  Your template might look like this.
 
+
 ```
 genie = require('../genie')
 
@@ -45,6 +46,7 @@ customer = genie(template)
 
 This would generate a records that looked something like this
 
+
 ```
 { name: 'Fadel, Schmidt and Maggio',
   address1: '06356 Howell Cove',
@@ -60,6 +62,7 @@ One thing to note here, is that genie uses the information provided to determine
 ## More Complicated Example
 
 Most real-world examples are a little more complicated.  Here is one such example.  This example generates a set of customer records with simulated orders containing random number of products for each order.
+
 
 ```
 genie = require('../genie')
@@ -279,7 +282,7 @@ Selects one randomly from the provided options.
 ```
 template = 
   size:
-    oneOf [
+    oneOf: [
       "Small", 
       "Medium", 
       "Large"
@@ -293,7 +296,7 @@ Simmilar to oneOf, but allows you to provide a relative weight to each of the va
 ```
 template = 
   size:
-    weightedSample [
+    weightedSample: [
       [10, "Small"], 
       [20, "Medium"], 
       [30, "Large"]
@@ -313,7 +316,7 @@ template =
   ref:
     min: 1
     max: 5
-  target: ()->
+  target: (genie)->
     this.ref + 1
 ```
 

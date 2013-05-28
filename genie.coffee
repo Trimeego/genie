@@ -12,6 +12,14 @@ Faker.Genie =
   zipCode9: ()-> Faker.Address.zipCodeFormat(1)
   brStateAbbr: ()-> Faker.Address.brState(true)
   usStateAbbr: ()-> Faker.Address.usState(true)
+  pattern: (pattern)->
+    fakerPattern = _.flatten((({func:Faker[n][f], context:Faker[n]} for f of Faker[n] when f is pattern) for n of Faker))    
+    if fakerPattern
+      fakerPattern[0].func.apply(fakerPattern[0].context)
+  format: (format)->
+    Faker.Helpers.replaceSymbolWithNumber(format)    
+  oneOf: (items)->
+    Faker.random.array_element(items)
   weightedSample: (items)->
     itemMap = _.map items, (item)->
       o = 
@@ -36,7 +44,7 @@ genie = (template)->
   for c of template
     current = template[c]
     if _.isFunction(current)
-      obj[c] = current.apply(obj)
+      obj[c] = current.apply(obj, [Faker.Genie])
 
     else if current.template
       # this is a nested Child Relationship
@@ -67,19 +75,16 @@ genie = (template)->
 
     else if current.pattern
       # this is a standard pattern
-      pattern = _.flatten((({func:Faker[n][f], context:Faker[n]} for f of Faker[n] when f is current.pattern) for n of Faker))    
-      if pattern
-        obj[c] = pattern[0].func.apply(pattern[0].context)
-
+      obj[c] = Faker.Genie.pattern.apply(obj, [current.pattern])
     else if current.format
       #this is a simple symbol replacement
-      obj[c] = Faker.Helpers.replaceSymbolWithNumber(current.format)
+      obj[c] = Faker.Genie.format.apply(obj, [current.format])
         
     else if current.oneOf
-      obj[c] = Faker.random.array_element(current.oneOf)
+      obj[c] = Faker.Genie.oneOf.apply(obj, [current.oneOf])
 
     else if current.weightedSample
-      obj[c] = Faker.Genie.weightedSample(current.weightedSample)
+      obj[c] = Faker.Genie.weightedSample.apply(obj, [current.weightedSample])
 
     else
       console.log c
