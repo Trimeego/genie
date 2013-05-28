@@ -61,6 +61,23 @@
     oneOf: function(items) {
       return Faker.random.array_element(items);
     },
+    someOf: function(items, min, max) {
+      var candidate, count, excludeCount, excluded, selected;
+      count = min + Faker.Helpers.randomNumber(min - max);
+      if (items.length >= count) {
+        return items;
+      } else {
+        excluded = [];
+        excludeCount = items.length - count;
+        while (excluded.length < excludeCount) {
+          candidate = Faker.random.array_element(items);
+          if (!_.contains(excluded, candidate)) {
+            excluded.push(candidate);
+          }
+        }
+        return selected = _.without(items, excluded);
+      }
+    },
     weightedSample: function(items) {
       var i, itemMap, seed, total, value, _i, _len;
       itemMap = _.map(items, function(item) {
@@ -130,6 +147,8 @@
         obj[c] = Faker.Genie.pattern.apply(obj, [current.pattern]);
       } else if (current.format) {
         obj[c] = Faker.Genie.format.apply(obj, [current.format]);
+      } else if (current.someOf) {
+        obj[c] = Faker.Genie.someOf.apply(obj, [current.someOf, 1, current.someOf.length]);
       } else if (current.oneOf) {
         obj[c] = Faker.Genie.oneOf.apply(obj, [current.oneOf]);
       } else if (current.weightedSample) {

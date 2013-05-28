@@ -24,7 +24,7 @@ Faker.Genie =
 
   someOf: (items, min, max)->
     count = min + Faker.Helpers.randomNumber(min-max)
-    if items.length <= count
+    if items.length >= count
       items
     else
       excluded = []    
@@ -33,9 +33,9 @@ Faker.Genie =
         candidate = Faker.random.array_element(items)
         if not _.contains(excluded, candidate)
           excluded.push candidate
-      _.without(items, excluded)
+      selected = _.without(items, excluded)
 
-    Faker.random.array_element(items)
+
   weightedSample: (items)->
     itemMap = _.map items, (item)->
       o = 
@@ -100,7 +100,7 @@ genie = (template)->
       obj[c] = Faker.Genie.format.apply(obj, [current.format])
         
     else if current.someOf
-      obj[c] = Faker.Genie.someOf.apply(obj, [current.someOf], 1, current.someOf.length)
+      obj[c] = Faker.Genie.someOf.apply(obj, [current.someOf, 1, current.someOf.length])
 
     else if current.oneOf
       obj[c] = Faker.Genie.oneOf.apply(obj, [current.oneOf])

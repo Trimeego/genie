@@ -490,6 +490,20 @@
         }
         return _results;
       });
+      it("uses the someOf option", function() {
+        var obj, x, _i, _results;
+        _results = [];
+        for (x = _i = 1; _i <= 20; x = ++_i) {
+          obj = genie({
+            one: {
+              someOf: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+          });
+          expect(obj.one).to.be.ok();
+          _results.push(expect(obj.one.length).to.be.within(1, 10));
+        }
+        return _results;
+      });
       return it("uses the weightedSample option", function() {
         var obj, results, x, _i;
         results = {

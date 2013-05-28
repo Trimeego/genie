@@ -285,6 +285,16 @@ describe "Genie", ->
         expect(obj.one).to.be.ok()
         expect(obj.one).to.be.within(1,3)
 
+    it "uses the someOf option", ->
+            
+      # since we are testing a random generator, we need to run it a few times
+      for x in [1..20]
+        obj = genie
+          one:
+            someOf: [1,2,3,4,5,6,7,8,9,10]
+        expect(obj.one).to.be.ok()
+        expect(obj.one.length).to.be.within(1,10)
+
     it "uses the weightedSample option", ->
       results = 
         small: 0
