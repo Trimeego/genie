@@ -18,7 +18,23 @@ Faker.Genie =
       fakerPattern[0].func.apply(fakerPattern[0].context)
   format: (format)->
     Faker.Helpers.replaceSymbolWithNumber(format)    
+
   oneOf: (items)->
+    Faker.random.array_element(items)
+
+  someOf: (items, min, max)->
+    count = min + Faker.Helpers.randomNumber(min-max)
+    if items.length <= count
+      items
+    else
+      excluded = []    
+      excludeCount = items.length - count
+      while excluded.length < excludeCount
+        candidate = Faker.random.array_element(items)
+        if not _.contains(excluded, candidate)
+          excluded.push candidate
+      _.without(items, excluded)
+
     Faker.random.array_element(items)
   weightedSample: (items)->
     itemMap = _.map items, (item)->
@@ -83,6 +99,9 @@ genie = (template)->
       #this is a simple symbol replacement
       obj[c] = Faker.Genie.format.apply(obj, [current.format])
         
+    else if current.someOf
+      obj[c] = Faker.Genie.someOf.apply(obj, [current.someOf], 1, current.someOf.length)
+
     else if current.oneOf
       obj[c] = Faker.Genie.oneOf.apply(obj, [current.oneOf])
 
