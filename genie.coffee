@@ -50,7 +50,7 @@ genie = (template)->
       min = current.min or current.range?[0] or 0
       max = current.max or current.range?[1] or 5 # 5 seems like a reasonable default      
       if not current.exists or current?.exists.apply obj, [Faker.Genie]
-        if not current.min and not current.max and current.exists
+        if not current.min and not current.max 
           obj[c] = genie(current.template)
         else  
           count = Faker.Helpers.randomNumber(max-min)

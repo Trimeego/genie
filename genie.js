@@ -98,7 +98,7 @@
         min = current.min || ((_ref = current.range) != null ? _ref[0] : void 0) || 0;
         max = current.max || ((_ref1 = current.range) != null ? _ref1[1] : void 0) || 5;
         if (!current.exists || (current != null ? current.exists.apply(obj, [Faker.Genie]) : void 0)) {
-          if (!current.min && !current.max && current.exists) {
+          if (!current.min && !current.max) {
             obj[c] = genie(current.template);
           } else {
             count = Faker.Helpers.randomNumber(max - min);
