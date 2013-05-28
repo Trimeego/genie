@@ -47,14 +47,17 @@ genie = (template)->
       obj[c] = current.apply(obj, [Faker.Genie])
 
     else if current.template
-      # this is a nested Child Relationship
       min = current.min or current.range?[0] or 0
       max = current.max or current.range?[1] or 5 # 5 seems like a reasonable default      
-      count = Faker.Helpers.randomNumber(max-min)
-      arr = []
-      for i in [1..count]
-        arr.push genie(current.template)
-      obj[c] = arr
+      if not current.exists or current?.exists.apply this
+        if not current.min and not current.max and current.exists
+          obj[c] = genie(current.template)
+        else  
+          count = Faker.Helpers.randomNumber(max-min)
+          arr = []
+          for i in [1..count]
+            arr.push genie(current.template)
+          obj[c] = arr
 
     else if current.minAge or current.maxAge
       # this one is a date
