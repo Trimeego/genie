@@ -49,7 +49,7 @@ genie = (template)->
     else if current.template
       min = current.min or current.range?[0] or 0
       max = current.max or current.range?[1] or 5 # 5 seems like a reasonable default      
-      if not current.exists or current?.exists.apply this
+      if not current.exists or current?.exists.apply obj, [Faker.Genie]
         if not current.min and not current.max and current.exists
           obj[c] = genie(current.template)
         else  

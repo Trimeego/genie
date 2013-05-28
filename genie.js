@@ -97,12 +97,18 @@
       } else if (current.template) {
         min = current.min || ((_ref = current.range) != null ? _ref[0] : void 0) || 0;
         max = current.max || ((_ref1 = current.range) != null ? _ref1[1] : void 0) || 5;
-        count = Faker.Helpers.randomNumber(max - min);
-        arr = [];
-        for (i = _i = 1; 1 <= count ? _i <= count : _i >= count; i = 1 <= count ? ++_i : --_i) {
-          arr.push(genie(current.template));
+        if (!current.exists || (current != null ? current.exists.apply(obj, [Faker.Genie]) : void 0)) {
+          if (!current.min && !current.max && current.exists) {
+            obj[c] = genie(current.template);
+          } else {
+            count = Faker.Helpers.randomNumber(max - min);
+            arr = [];
+            for (i = _i = 1; 1 <= count ? _i <= count : _i >= count; i = 1 <= count ? ++_i : --_i) {
+              arr.push(genie(current.template));
+            }
+            obj[c] = arr;
+          }
         }
-        obj[c] = arr;
       } else if (current.minAge || current.maxAge) {
         min = current.minAge || 0;
         max = current.maxAge || 365;

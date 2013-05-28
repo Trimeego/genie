@@ -543,6 +543,7 @@
           },
           target: function(genie) {
             expect(genie).to.not.be(null);
+            expect(genie.oneOf).to.not.be(null);
             expect(genie.format).to.not.be(null);
             expect(genie.weightedSample).to.not.be(null);
             return expect(genie.pattern).to.not.be(null);
