@@ -51,8 +51,10 @@
         }
         return _results;
       })());
-      if (fakerPattern) {
+      if (fakerPattern && fakerPattern.length > 0) {
         return fakerPattern[0].func.apply(fakerPattern[0].context);
+      } else {
+        throw new Error("invalid pattern: " + pattern);
       }
     },
     format: function(format) {
@@ -153,8 +155,6 @@
         obj[c] = Faker.Genie.oneOf.apply(obj, [current.oneOf]);
       } else if (current.weightedSample) {
         obj[c] = Faker.Genie.weightedSample.apply(obj, [current.weightedSample]);
-      } else {
-        console.log(c);
       }
     }
     return obj;

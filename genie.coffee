@@ -110,8 +110,6 @@ genie = (template)->
     else if current.weightedSample
       obj[c] = Faker.Genie.weightedSample.apply(obj, [current.weightedSample])
 
-    else
-      console.log c
   obj
 
 module.exports = genie
