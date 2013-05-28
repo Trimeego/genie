@@ -26,15 +26,16 @@ Faker.Genie =
 
   someOf: (items, min, max)->
     count = min + Faker.Helpers.randomNumber(min-max)
-    if items.length >= count
+    if items.length <= count
       items
     else
       excluded = []    
       excludeCount = items.length - count
       while excluded.length < excludeCount
-        candidate = Faker.random.array_element(items)
-        if not _.contains(excluded, candidate)
-          excluded.push candidate
+        itemsLeft = _.without(items, excluded)
+        candidate = Faker.random.array_element(itemsLeft)
+        excluded.push candidate
+
       selected = _.without(items, excluded)
 
 
@@ -93,6 +94,8 @@ genie = (template)->
         obj[c] = ((min*Math.pow(10, places)) + Faker.Helpers.randomNumber(max*Math.pow(10, places)-min*Math.pow(10, places)))/Math.pow(10, places)
       else
         obj[c] = min + Faker.Helpers.randomNumber(max-min)
+      if current.round
+        obj[c] = Math.floor(obj[c] / current.round) * current.round
 
     else if current.pattern
       # this is a standard pattern

@@ -55,7 +55,7 @@
         }
         return _results;
       });
-      return it("uses the places option", function() {
+      it("uses the places option", function() {
         var hasplaces, obj, x, _i;
         hasplaces = false;
         for (x = _i = 1; _i <= 10; x = ++_i) {
@@ -70,6 +70,23 @@
           }
         }
         return expect(hasplaces).to.be.ok();
+      });
+      return it("uses the round option", function() {
+        var hasplaces, obj, rounded, x, _i;
+        hasplaces = false;
+        for (x = _i = 1; _i <= 10; x = ++_i) {
+          obj = genie({
+            quantity: {
+              min: 1000000,
+              min: 10000000,
+              round: 1000000
+            }
+          });
+          if (obj.quantity % 1000000 === 0) {
+            rounded = true;
+          }
+        }
+        return expect(rounded).to.be.ok();
       });
     });
     describe("Dates", function() {

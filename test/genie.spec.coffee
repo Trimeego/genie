@@ -46,6 +46,17 @@ describe "Genie", ->
           hasplaces = true
       expect(hasplaces).to.be.ok()
 
+    it "uses the round option", ->
+      hasplaces = false
+      for x in [1..10]
+        obj = genie
+          quantity:
+            min:1000000
+            min:10000000
+            round: 1000000
+        if obj.quantity%1000000 is 0
+          rounded = true
+      expect(rounded).to.be.ok()
 
   describe "Dates", ->
     it "uses the age option", ->
