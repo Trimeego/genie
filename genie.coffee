@@ -62,13 +62,14 @@ genie = (template)->
   obj = {}
   for c of template
     current = template[c]
-    if _.isFunction(current)
-      obj[c] = current.apply(obj, [Faker.Genie])
+    if not current.exists or current?.exists.apply obj, [Faker.Genie]
+      if _.isFunction(current)
+        obj[c] = current.apply(obj, [Faker.Genie])
 
-    else if current.template
-      min = current.min or current.range?[0] or 0
-      max = current.max or current.range?[1] or 5 # 5 seems like a reasonable default      
-      if not current.exists or current?.exists.apply obj, [Faker.Genie]
+      else if current.template
+        min = current.min or current.range?[0] or 0
+        max = current.max or current.range?[1] or 5 # 5 seems like a reasonable default   
+
         if not current.min and not current.max 
           obj[c] = genie(current.template)
         else  
@@ -78,40 +79,40 @@ genie = (template)->
             arr.push genie(current.template)
           obj[c] = arr
 
-    else if current.minAge or current.maxAge
-      # this one is a date
-      min = current.minAge || 0
-      max = current.maxAge || 365
-      if current.format
-        obj[c] = moment().subtract('days', (min + Faker.Helpers.randomNumber(max-min))).format(current.format)
-      else
-        obj[c] = moment().subtract('days', (min + Faker.Helpers.randomNumber(max-min))).clone().toDate()
-    else if current.min or current.max or current.range
-      min = current.min or current.range?[0] or 0
-      max = current.max or current.range?[1] or 1000000
-      places = current.places or 0
-      if places
-        obj[c] = ((min*Math.pow(10, places)) + Faker.Helpers.randomNumber(max*Math.pow(10, places)-min*Math.pow(10, places)))/Math.pow(10, places)
-      else
-        obj[c] = min + Faker.Helpers.randomNumber(max-min)
-      if current.round
-        obj[c] = Math.floor(obj[c] / current.round) * current.round
+      else if current.minAge or current.maxAge
+        # this one is a date
+        min = current.minAge || 0
+        max = current.maxAge || 365
+        if current.format
+          obj[c] = moment().subtract('days', (min + Faker.Helpers.randomNumber(max-min))).format(current.format)
+        else
+          obj[c] = moment().subtract('days', (min + Faker.Helpers.randomNumber(max-min))).clone().toDate()
+      else if current.min or current.max or current.range
+        min = current.min or current.range?[0] or 0
+        max = current.max or current.range?[1] or 1000000
+        places = current.places or 0
+        if places
+          obj[c] = ((min*Math.pow(10, places)) + Faker.Helpers.randomNumber(max*Math.pow(10, places)-min*Math.pow(10, places)))/Math.pow(10, places)
+        else
+          obj[c] = min + Faker.Helpers.randomNumber(max-min)
+        if current.round
+          obj[c] = Math.floor(obj[c] / current.round) * current.round
 
-    else if current.pattern
-      # this is a standard pattern
-      obj[c] = Faker.Genie.pattern.apply(obj, [current.pattern])
-    else if current.format
-      #this is a simple symbol replacement
-      obj[c] = Faker.Genie.format.apply(obj, [current.format])
-        
-    else if current.someOf
-      obj[c] = Faker.Genie.someOf.apply(obj, [current.someOf, 1, current.someOf.length])
+      else if current.pattern
+        # this is a standard pattern
+        obj[c] = Faker.Genie.pattern.apply(obj, [current.pattern])
+      else if current.format
+        #this is a simple symbol replacement
+        obj[c] = Faker.Genie.format.apply(obj, [current.format])
+          
+      else if current.someOf
+        obj[c] = Faker.Genie.someOf.apply(obj, [current.someOf, 1, current.someOf.length])
 
-    else if current.oneOf
-      obj[c] = Faker.Genie.oneOf.apply(obj, [current.oneOf])
+      else if current.oneOf
+        obj[c] = Faker.Genie.oneOf.apply(obj, [current.oneOf])
 
-    else if current.weightedSample
-      obj[c] = Faker.Genie.weightedSample.apply(obj, [current.weightedSample])
+      else if current.weightedSample
+        obj[c] = Faker.Genie.weightedSample.apply(obj, [current.weightedSample])
 
   obj
 

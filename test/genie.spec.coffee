@@ -328,6 +328,17 @@ describe "Genie", ->
       expect(results.medium).to.be.within(250, 350)
       expect(results.large).to.be.within(550, 650)
 
+  describe "Exixts", ->
+
+    it "honors the exists value", ->
+      for x in [1..20]
+        obj = genie
+          quantity:
+            exists: ()->
+              false
+            min: 1
+        expect(obj.quantity).to.not.be.ok()
+
 
   describe "Functions", ->
 
