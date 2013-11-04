@@ -110,24 +110,27 @@
     }
   };
 
-  genie = function(template) {
+  genie = function(template, rootObject) {
     var arr, c, count, current, i, max, min, obj, places, _i, _ref, _ref1, _ref2, _ref3;
     obj = {};
+    if (!rootObject) {
+      rootObject = obj;
+    }
     for (c in template) {
       current = template[c];
       if (!current.exists || (current != null ? current.exists.apply(obj, [Faker.Genie]) : void 0)) {
         if (_.isFunction(current)) {
-          obj[c] = current.apply(obj, [Faker.Genie]);
+          obj[c] = current.apply(obj, [Faker.Genie, rootObject]);
         } else if (current.template) {
           min = current.min || ((_ref = current.range) != null ? _ref[0] : void 0) || 0;
           max = current.max || ((_ref1 = current.range) != null ? _ref1[1] : void 0) || 5;
           if (!current.min && !current.max) {
-            obj[c] = genie(current.template);
+            obj[c] = genie(current.template, rootObject);
           } else {
             count = Faker.Helpers.randomNumber(max - min);
             arr = [];
             for (i = _i = 1; 1 <= count ? _i <= count : _i >= count; i = 1 <= count ? ++_i : --_i) {
-              arr.push(genie(current.template));
+              arr.push(genie(current.template, rootObject));
             }
             obj[c] = arr;
           }
