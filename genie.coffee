@@ -61,25 +61,27 @@ Faker.Genie =
         break
     value
 
-genie = (template)->
+genie = (template, rootObject)->
   obj = {}
+  if not rootObject
+    rootObject = obj
   for c of template
     current = template[c]
     if not current.exists or current?.exists.apply obj, [Faker.Genie]
       if _.isFunction(current)
-        obj[c] = current.apply(obj, [Faker.Genie])
+        obj[c] = current.apply(obj, [Faker.Genie, rootObject])
 
       else if current.template
         min = current.min or current.range?[0] or 0
         max = current.max or current.range?[1] or 5 # 5 seems like a reasonable default   
 
         if not current.min and not current.max 
-          obj[c] = genie(current.template)
+          obj[c] = genie(current.template, rootObject)
         else  
           count = Faker.Helpers.randomNumber(max-min)
           arr = []
           for i in [1..count]
-            arr.push genie(current.template)
+            arr.push genie(current.template, rootObject)
           obj[c] = arr
 
       else if current.minAge or current.maxAge

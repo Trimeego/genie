@@ -320,14 +320,14 @@ template =
 
 ### Functions
 
-Occasionally, you may need to execute a function to return a value.  While any function can be called, usually, this is really handy when you want date values within the object to tally properly.  See the more complicated example above.  Note:  it is important to remember that attributes are processed in order, so the function attributes should be defined after the informative attributes in the template.
+Occasionally, you may need to execute a function to return a value.  While any function can be called, usually, this is really handy when you want date values within the object to tally properly.  See the more complicated example above.  Note:  it is important to remember that attributes are processed in order, so the function attributes should be defined after the informative attributes in the template.  Note:  The root object always refers to the top level object where `this` is always in the context of the current object.
 
 ```
 template = 
   ref:
     min: 1
     max: 5
-  target: (genie)->
+  target: (genie, rootObject)->
     this.ref + 1
 ```
 
