@@ -40,7 +40,7 @@ Faker.Genie =
 
   randomInRange: (min, max)->
     range = max - min
-    Math.floor(Math.random() * range)
+    min + Math.floor(Math.random() * range)
 
   weightedSample: (items)->
     itemMap = _.map items, (item)->

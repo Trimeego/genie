@@ -306,6 +306,17 @@ template =
 Note that the weights are relative and do not need to add to a specific value, such as 1 or 100.
 
 
+#### randomInRange
+
+Gives a random integer within the specified range
+
+```
+template = 
+  height:
+    randomInRange: 42, 85
+```
+
+
 
 ### Functions
 
