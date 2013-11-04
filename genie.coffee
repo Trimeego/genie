@@ -38,6 +38,9 @@ Faker.Genie =
 
       selected = _.without(items, excluded)
 
+  randomInRange: (min, max)->
+    range = max - min
+    Math.floor(Math.random() * range)
 
   weightedSample: (items)->
     itemMap = _.map items, (item)->
